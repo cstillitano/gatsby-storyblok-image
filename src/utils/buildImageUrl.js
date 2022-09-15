@@ -34,12 +34,16 @@ function buildImageUrl(originalPath, image, baseUrl) {
   return url
 }
 
-export function buildLowFiUrl(originalPath, { width, height, aspectRatio }) {
-  return buildImageUrl(originalPath, {
-    width: (width / 3).toFixed(0),
-    height: (height / 3).toFixed(0),
-    quality: 10
-  })
+export function buildLowFiUrl(originalPath, { width, height, aspectRatio }, baseUrl) {
+  return buildImageUrl(
+    originalPath,
+    {
+      width: (width / 3).toFixed(0),
+      height: (height / 3).toFixed(0),
+      quality: 10
+    },
+    baseUrl
+  )
 }
 
 export default buildImageUrl

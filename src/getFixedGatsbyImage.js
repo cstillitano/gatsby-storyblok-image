@@ -103,7 +103,7 @@ function getFixedGatsbyImage(image, args = {}, baseUrl) {
   // base64String
 
   return {
-    base64: buildLowFiUrl(originalPath, { width, height, aspectRatio: desiredAspectRatio }),
+    base64: buildLowFiUrl(originalPath, { width, height, aspectRatio: desiredAspectRatio }, baseUrl),
     aspectRatio: desiredAspectRatio,
     width: Math.round(width),
     height: outputHeight,
