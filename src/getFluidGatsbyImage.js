@@ -3,7 +3,7 @@ import buildUrl, { buildLowFiUrl } from './utils/buildImageUrl'
 import { isWebP } from './utils/helpers'
 import { sizeMultipliersFluid, defaultFluidOptions } from './defaults'
 
-function getFluidGatsbyImage(image, args = {}) {
+function getFluidGatsbyImage(image, args = {}, baseUrl) {
   let imageProps = getBasicImageProps(image)
 
   if (!imageProps) {
@@ -55,17 +55,25 @@ function getFluidGatsbyImage(image, args = {}) {
         height: currentHeight
       }
 
-      let webpUrl = buildUrl(originalPath, {
-        ...options,
-        ...size,
-        ...{ format: 'webp' }
-      })
+      let webpUrl = buildUrl(
+        originalPath,
+        {
+          ...options,
+          ...size,
+          ...{ format: 'webp' }
+        },
+        baseUrl
+      )
 
-      let baseUrl = buildUrl(originalPath, {
-        ...options,
-        ...size,
-        ...{ format: forceConvert }
-      })
+      let baseUrl = buildUrl(
+        originalPath,
+        {
+          ...options,
+          ...size,
+          ...{ format: forceConvert }
+        },
+        baseUrl
+      )
 
       acc.webp.push(`${webpUrl} ${currentWidth}w`)
       acc.base.push(`${baseUrl} ${currentWidth}w`)
@@ -74,20 +82,32 @@ function getFluidGatsbyImage(image, args = {}) {
 
   let imgSize = { width: maxWidth, height: maxHeight }
 
-  let src = buildUrl(originalPath, {
-    ...options,
-    ...imgSize,
-    ...{ format: forceConvert }
-  })
+  let src = buildUrl(
+    originalPath,
+    {
+      ...options,
+      ...imgSize,
+      ...{ format: forceConvert }
+    },
+    baseUrl
+  )
 
-  let srcWebp = buildUrl(originalPath, {
-    ...options,
-    ...imgSize,
-    ...{ format: 'webp' }
-  })
+  let srcWebp = buildUrl(
+    originalPath,
+    {
+      ...options,
+      ...imgSize,
+      ...{ format: 'webp' }
+    },
+    baseUrl
+  )
 
   return {
-    base64: buildLowFiUrl(originalPath, { width: maxWidth, height: maxHeight, aspectRatio: desiredAspectRatio }),
+    base64: buildLowFiUrl(
+      originalPath,
+      { width: maxWidth, height: maxHeight, aspectRatio: desiredAspectRatio },
+      baseUrl
+    ),
     aspectRatio: desiredAspectRatio,
     src,
     srcWebp,

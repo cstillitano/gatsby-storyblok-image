@@ -3,7 +3,7 @@ import buildUrl, { buildLowFiUrl } from './utils/buildImageUrl'
 import { isWebP } from './utils/helpers'
 import { sizeMultipliersFixed, defaultFixedOptions } from './defaults'
 
-function getFixedGatsbyImage(image, args = {}) {
+function getFixedGatsbyImage(image, args = {}, baseUrl) {
   let imageProps = getBasicImageProps(image)
 
   if (!imageProps) {
@@ -50,15 +50,23 @@ function getFixedGatsbyImage(image, args = {}) {
         height: currentHeight
       }
 
-      let webpUrl = buildUrl(originalPath, {
-        ...size,
-        ...{ format: 'webp' }
-      })
+      let webpUrl = buildUrl(
+        originalPath,
+        {
+          ...size,
+          ...{ format: 'webp' }
+        },
+        baseUrl
+      )
 
-      let baseUrl = buildUrl(originalPath, {
-        ...size,
-        ...(forceConvert && { format: forceConvert })
-      })
+      let baseUrl = buildUrl(
+        originalPath,
+        {
+          ...size,
+          ...(forceConvert && { format: forceConvert })
+        },
+        baseUrl
+      )
 
       acc.webp.push(`${webpUrl} ${resolution}`)
       acc.base.push(`${baseUrl} ${resolution}`)
@@ -74,20 +82,28 @@ function getFixedGatsbyImage(image, args = {}) {
     height: outputHeight
   }
 
-  let src = buildUrl(originalPath, {
-    ...imgSize,
-    ...(forceConvert && { format: forceConvert })
-  })
+  let src = buildUrl(
+    originalPath,
+    {
+      ...imgSize,
+      ...(forceConvert && { format: forceConvert })
+    },
+    baseUrl
+  )
 
-  let srcWebp = buildUrl(originalPath, {
-    ...imgSize,
-    ...{ format: 'webp' }
-  })
+  let srcWebp = buildUrl(
+    originalPath,
+    {
+      ...imgSize,
+      ...{ format: 'webp' }
+    },
+    baseUrl
+  )
 
   // base64String
 
   return {
-    base64: buildLowFiUrl(originalPath, { width, height, aspectRatio: desiredAspectRatio }),
+    base64: buildLowFiUrl(originalPath, { width, height, aspectRatio: desiredAspectRatio }, baseUrl),
     aspectRatio: desiredAspectRatio,
     width: Math.round(width),
     height: outputHeight,
