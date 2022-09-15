@@ -1,12 +1,12 @@
 import { STORYBLOK_BASE_URL } from '../defaults'
 import { applyFilters } from './helpers'
 
-function buildImageUrl(originalPath, image) {
+function buildImageUrl(originalPath, image, baseUrl) {
   let { width, height, smartCrop, quality, format, fill } = image
 
   let [, extension] = originalPath.split('.')
 
-  let url = STORYBLOK_BASE_URL
+  let url = baseUrl || STORYBLOK_BASE_URL
 
   url += `/${originalPath}/m`
 
